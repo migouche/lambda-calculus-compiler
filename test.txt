@@ -1,0 +1,9 @@
+true = lambda x. lambda y. x;
+
+
+
+lambda
+
+
+
+false = λx.λy.y;
