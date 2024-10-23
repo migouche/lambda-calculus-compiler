@@ -1,0 +1,25 @@
+true = lambda x: lambda y: x
+false = lambda x: lambda y: y
+
+#_not = lambda b: lambda x: lambda y: b(y)(x)
+#_and = lambda a: lambda b: lambda x: lambda y: a(b(x)(y))(y)
+_nand = lambda a: lambda b: lambda x: lambda y: a(b(y)(x))(x)
+_not = lambda b: lambda x: lambda y: _nand(b)(b)(x)(y)
+_and = lambda a: lambda b: lambda x: lambda y: _not(_nand(a)(b))(x)(y)
+_or = lambda a: lambda b: lambda x: lambda y: _nand(_not(a))(_not(b))(x)(y)
+_nor = lambda a: lambda b: lambda x: lambda y: _not(_or(a)(b))(x)(y)
+
+zero = lambda s: lambda z: z
+one = lambda s: lambda z: s(z)
+two = lambda s: lambda z: s(s(z))
+successor = lambda n: lambda s: lambda z: n(s)(s(z))
+#successor = lambda n: lambda f: lambda x: f((n(f))(x))
+pair = lambda x: lambda y: lambda b: b(x)(y)
+first = lambda p: p(true)
+second = lambda p: p(false)
+_sum = lambda a: lambda b: a(successor)(b)
+successor_pair = lambda p: pair(second(p))(successor(second(p)))
+
+pred = lambda n: first(n(successor_pair)(pair(zero)(zero)))
+sub = lambda a: lambda b: b(pred)(a)
+prod = lambda a: lambda b: a(_sum(b))(zero)

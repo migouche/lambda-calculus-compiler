@@ -1,37 +1,41 @@
-use core::str;
 use std::rc::Rc;
 
-enum Value {
-    Eval(Rc<Variable>, Rc<Value>),
-    AnonFunc(LamdaFunction),
-    Arg(String)
+pub(crate) enum Value {
+    Eval(String, Rc<Value>),     // name, arg
+    AnonFunc(String, Rc<Value>), // arg, val
+    Arg(String),
 }
 
-struct Variable{
-    name: String,
-    val: Value
-}
-
-struct LamdaFunction{
-    argname: String,
-    value: Rc<Value>
-}
-
-struct AST{
-    pub program: Vec<Variable>
+pub(crate) struct AST {
+    pub program: Vec<Value>,
 }
 
 /*
 true = lambda x. lambda y. x;
+===
+(define _true (lambda (x) (lambda (y) x)))
 
-Variable(
-    "true",
+Value::Eval(
+    "define",
     Value::AnonFunc(
         "x",
         Value::AnonFunc(
             "y",
-            Value::Arg("x")
-        ))
+            Value::Parameter("x")
+        )
     )
+)
 
 */
+
+impl AST {
+    pub fn new() -> AST {
+        AST {
+            program: Vec::new(),
+        }
+    }
+
+    pub fn add(&mut self, Value: Value) {
+        self.program.push(Value);
+    }
+}

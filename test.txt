@@ -1,9 +1,9 @@
+λx.x;
+
 true = lambda x. lambda y. x;
 
-
-
-lambda
-
-
-
 false = λx.λy.y;
+
+nand = lambda a. lambda b. lambda x. lambda y.  a(b(y)(x))(x);
+
+λx.x;
